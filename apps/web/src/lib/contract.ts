@@ -1,4 +1,4 @@
-import { type Address } from "viem";
+import type { Address } from '@/types';
 
 export const CONTRACT_ADDRESS =
   process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as Address;

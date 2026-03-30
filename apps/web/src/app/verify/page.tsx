@@ -1,13 +1,15 @@
 "use client";
 import { useState } from "react";
-import { useReadContract } from "wagmi";
+import { useReadContract, useAccount } from "wagmi";
 import { CERTIFICATE_ABI, CONTRACT_ADDRESS } from "@/lib/contract";
 
 export default function VerifyCertificate() {
   const [tokenId, setTokenId] = useState("");
   const [search, setSearch] = useState<bigint | null>(null);
 
+  const { address } = useAccount();
   const { data, isError, isLoading } = useReadContract({
+    account: address,
     address: CONTRACT_ADDRESS,
     abi: CERTIFICATE_ABI,
     functionName: "verify_certificate",

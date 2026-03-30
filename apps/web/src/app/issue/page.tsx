@@ -4,7 +4,7 @@ import { useWriteContract, useAccount } from "wagmi";
 import { CERTIFICATE_ABI, CONTRACT_ADDRESS } from "@/lib/contract";
 
 export default function IssueCertificate() {
-  const { isConnected } = useAccount();
+  const { isConnected, address } = useAccount();
   const { writeContract, isPending, isSuccess } = useWriteContract();
 
   const [form, setForm] = useState({
@@ -18,6 +18,7 @@ export default function IssueCertificate() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     writeContract({
+      account: address,
       address: CONTRACT_ADDRESS,
       abi: CERTIFICATE_ABI,
       functionName: "issue_certificate",
