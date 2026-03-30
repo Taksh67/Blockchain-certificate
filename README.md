@@ -102,7 +102,3 @@ pnpm dev
 
 Taksh Padmani - Undergraduate CS Student
 Project submitted for Semester 6
-
-## License
-
-MIT
