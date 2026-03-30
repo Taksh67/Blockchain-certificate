@@ -1,98 +1,108 @@
-# My Dapp
+# NFT-Based Blockchain Certificate Verification System
 
-A Web3 application - composed with [N]skills
+A decentralized application (dApp) that issues and verifies academic certificates as NFTs on the blockchain - making them tamper-proof, instantly verifiable, and permanently owned by the recipient.
 
-## 📁 Project Structure
+## Problem Statement
+
+Traditional paper certificates face serious challenges:
+- Easy to forge or counterfeit
+- Can be lost or damaged
+- Slow and expensive to verify
+- Require contacting the institution directly
+
+## Our Solution
+
+Each certificate is minted as a unique ERC-721 NFT on the blockchain.
+- Institutions issue certificates via smart contract
+- Students receive the NFT directly in their wallet
+- Employers verify instantly using the token ID or QR code
+- No intermediary needed - verification is on-chain and public
+
+## Project Structure
 
 ```
-my-dapp/
-├── apps/
-│   └── web/                    # Next.js frontend
-│       ├── src/
-│       ├── package.json
-│       └── ...
-├── contracts/                  # Rust/Stylus smart contracts
-│   ├── mycontract/            # Original contract (no caching)
-│   │   └── src/lib.rs
-│   └── cached-contract/       # Contract with is_cacheable helper
-│       └── src/lib.rs
-├── docs/                       # Documentation
-├── scripts/                     # Deploy scripts
-├── .gitignore
+Blockchain-certificate/
+├── apps/web/               # Next.js 14 Frontend
+│   └── src/
+│       ├── app/            # Pages (Issue, Verify, Dashboard)
+│       ├── components/     # UI Components
+│       ├── lib/            # Contract interaction utilities
+│       └── types/          # TypeScript types
+├── contracts/erc721/       # Rust/Stylus Smart Contract
+│   └── src/lib.rs          # ERC-721 Certificate Contract
+├── docs/                   # Documentation
+├── scripts/                # Deployment scripts
 └── README.md
 ```
 
-## 🚀 Quick Start
+## Smart Contract Features
+
+| Function | Description |
+|----------|-------------|
+| issue_certificate() | Admin mints NFT certificate to student wallet |
+| verify_certificate() | Anyone can verify a certificate using token ID |
+| revoke_certificate() | Admin can revoke invalid certificates |
+| balance_of() | Check how many certificates a wallet holds |
+| owner_of_token() | Get owner of a specific certificate |
+| total_supply() | Total certificates issued |
+
+## Quick Start
 
 ### Prerequisites
 - Node.js 18+
-- npm, yarn, or pnpm
+- Rust + Cargo
+- pnpm
 
 ### Installation
 
-1. **Clone the repository:**
-   ```bash
-   git clone <your-repo-url>
-   cd my-dapp
-   ```
+```bash
+git clone https://github.com/Taksh67/Blockchain-certificate
+cd Blockchain-certificate
+cd apps/web
+pnpm install
+cp .env.example .env
+```
 
-2. **Install dependencies:**
-   ```bash
-   npm install
-   # or
-   pnpm install
-   ```
+### Configure .env
+```
+PRIVATE_KEY=your_wallet_private_key
+NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_walletconnect_id
+NEXT_PUBLIC_CONTRACT_ADDRESS=deployed_contract_address
+```
 
-3. **Set up environment variables:**
-   ```bash
-   cp .env.example .env
-   ```
+### Deploy Contract
+```bash
+pnpm deploy:sepolia
+pnpm deploy:mainnet
+```
 
-   Edit `.env` and configure:
-      - `PRIVATE_KEY`: Private key for deployment and transactions
-   - `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID`: WalletConnect Cloud project ID for wallet connections
+### Run Frontend
+```bash
+cd apps/web
+pnpm dev
+```
 
-4. **Deploy contracts** (from repo root): `pnpm deploy:sepolia` or `pnpm deploy:mainnet`
+## Supported Networks
 
-5. **Scripts (Windows):** Run `pnpm fix-scripts` or `dos2unix scripts/*.sh` if you see line-ending errors.
+| Network | Type |
+|---------|------|
+| Arbitrum Sepolia | Testnet |
+| Arbitrum One | Mainnet |
 
-## 🔗 Smart Contracts
+## Tech Stack
 
-The `contracts/` folder contains Rust/Stylus smart contract source code. See `docs/` for deployment and integration guides.
+| Layer | Technology |
+|-------|------------|
+| Frontend | Next.js 14, Tailwind CSS |
+| Web3 | wagmi, viem, RainbowKit |
+| Smart Contract | Rust (Stylus), ERC-721 |
+| Blockchain | Arbitrum (Layer 2) |
 
-## 🛠 Available Scripts
+## Author
 
-| Command | Description |
-|---------|-------------|
-| `pnpm deploy:sepolia` | Deploy to Arbitrum Sepolia |
-| `pnpm deploy:mainnet` | Deploy to Arbitrum One |
-| `pnpm fix-scripts` | Fix CRLF line endings (Windows) |
-
-## 🌐 Supported Networks
-
-- Arbitrum Sepolia (Testnet)
-- Arbitrum One (Mainnet)
-- Superposition
-- Superposition Testnet
-
-## 📚 Tech Stack
-
-- **Framework:** Next.js 14 (App Router)
-- **Styling:** Tailwind CSS
-- **Web3:** wagmi + viem
-- **Wallet Connection:** RainbowKit
-
-## 📖 Documentation
-
-See the `docs/` folder for:
-- Contract interaction guide
-- Deployment instructions
-- API reference
+Taksh Padmani - Undergraduate CS Student
+Project submitted for Semester 6
 
 ## License
 
 MIT
-
----
-
-Generated with ❤️ by [[N]skills](https://www.nskills.xyz)
