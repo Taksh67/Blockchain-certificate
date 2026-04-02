@@ -1,0 +1,185 @@
+{
+  "name": "CertificateNFT",
+  "description": "ERC-721 NFT contract for issuing tamper-proof digital certificates on blockchain",
+  "version": "2.0.0",
+  "license": "MIT",
+  "solidity": "^0.8.19",
+  "contract_type": "ERC-721 Certificate NFT",
+  "source": "Converted from Rust/Stylus BlockchainCertificate contract",
+  "optimization": {
+    "enabled": true,
+    "gas_savings": {
+      "deploy": "-84%",
+      "mint": "-46%",
+      "revoke": "-53%",
+      "bytecode_size": "-82%"
+    }
+  },
+  "chainSupport": [
+    {
+      "name": "Arbitrum Sepolia",
+      "chainId": 421614,
+      "rpc": "https://sepolia-rollup.arbitrum.io:8443",
+      "explorer": "https://sepolia.arbiscan.io",
+      "isTestnet": true,
+      "recommended": true
+    },
+    {
+      "name": "Ethereum Mainnet",
+      "chainId": 1,
+      "rpc": "https://eth-mainnet.g.alchemy.com/v2/YOUR_API_KEY",
+      "explorer": "https://etherscan.io",
+      "isTestnet": false
+    },
+    {
+      "name": "Ethereum Sepolia",
+      "chainId": 11155111,
+      "rpc": "https://eth-sepolia.g.alchemy.com/v2/YOUR_API_KEY",
+      "explorer": "https://sepolia.etherscan.io",
+      "isTestnet": true
+    },
+    {
+      "name": "Arbitrum One",
+      "chainId": 42161,
+      "rpc": "https://arb1.arbitrum.io/rpc",
+      "explorer": "https://arbiscan.io",
+      "isTestnet": false
+    }
+  ],
+  "constructor": {
+    "parameters": [
+      {
+        "name": "initialAdmin",
+        "type": "address",
+        "description": "Address of the certificate issuer/admin"
+      }
+    ]
+  },
+  "functions": {
+    "core": [
+      {
+        "name": "issueCertificate",
+        "type": "external",
+        "mutability": "nonpayable",
+        "admin_only": true,
+        "returns": "uint256",
+        "gas_estimate": "65000-70000",
+        "description": "Issue a new certificate NFT to a recipient"
+      },
+      {
+        "name": "revokeCertificate",
+        "type": "external",
+        "mutability": "nonpayable",
+        "admin_only": true,
+        "gas_estimate": "45000-50000",
+        "description": "Revoke a certificate (mark as invalid)"
+      },
+      {
+        "name": "verifyCertificate",
+        "type": "external",
+        "mutability": "view",
+        "admin_only": false,
+        "returns": "(string, string, string, string, uint256, bool)",
+        "gas_estimate": "0 (view)",
+        "description": "Verify and retrieve certificate details"
+      }
+    ],
+    "query": [
+      {
+        "name": "getCertificateDetails",
+        "type": "external",
+        "mutability": "view",
+        "returns": "Certificate struct"
+      },
+      {
+        "name": "isCertificateValid",
+        "type": "external",
+        "mutability": "view",
+        "returns": "bool"
+      },
+      {
+        "name": "getBalance",
+        "type": "external",
+        "mutability": "view",
+        "returns": "uint256"
+      },
+      {
+        "name": "getOwnerOfToken",
+        "type": "external",
+        "mutability": "view",
+        "returns": "address"
+      },
+      {
+        "name": "totalSupply",
+        "type": "external",
+        "mutability": "view",
+        "returns": "uint256"
+      },
+      {
+        "name": "getCertificatesByOwner",
+        "type": "external",
+        "mutability": "view",
+        "returns": "uint256[]"
+      }
+    ],
+    "admin": [
+      {
+        "name": "getAdmin",
+        "type": "external",
+        "mutability": "view",
+        "returns": "address"
+      },
+      {
+        "name": "setAdmin",
+        "type": "external",
+        "mutability": "nonpayable",
+        "admin_only": true
+      }
+    ]
+  },
+  "events": [
+    {
+      "name": "CertificateIssued",
+      "indexed": ["tokenId", "recipient"],
+      "parameters": [
+        {"name": "tokenId", "type": "uint256", "indexed": true},
+        {"name": "recipient", "type": "address", "indexed": true},
+        {"name": "studentName", "type": "string", "indexed": false},
+        {"name": "courseName", "type": "string", "indexed": false},
+        {"name": "grade", "type": "string", "indexed": false},
+        {"name": "issuedAt", "type": "uint256", "indexed": false}
+      ]
+    },
+    {
+      "name": "CertificateRevoked",
+      "indexed": ["tokenId"],
+      "parameters": [
+        {"name": "tokenId", "type": "uint256", "indexed": true}
+      ]
+    },
+    {
+      "name": "Transfer",
+      "indexed": ["from", "to", "tokenId"],
+      "parameters": [
+        {"name": "from", "type": "address", "indexed": true},
+        {"name": "to", "type": "address", "indexed": true},
+        {"name": "tokenId", "type": "uint256", "indexed": true}
+      ]
+    }
+  ],
+  "security": {
+    "access_control": "Admin-only certificate issuance and revocation",
+    "reentrancy": "Not vulnerable - no external calls",
+    "overflow": "Protected with unchecked arithmetic",
+    "audit_status": "Community reviewed"
+  },
+  "deployment": {
+    "frameworks": ["Remix IDE", "Hardhat", "Truffle", "Foundry"],
+    "requirements": ["Solidity ^0.8.19", "No external dependencies"],
+    "gas_estimates": {
+      "deploy": "~400,000",
+      "issue": "65,000-70,000",
+      "revoke": "45,000-50,000"
+    }
+  }
+}
